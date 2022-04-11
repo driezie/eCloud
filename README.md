@@ -1,6 +1,6 @@
 # eCloud
 
-![](https://komarev.com/ghpvc/?driezie&style=flat-square)
+![](https://komarev.com/ghpvc/?driezie)
 
 
 Projectbeschrijving
