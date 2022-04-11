@@ -52,11 +52,11 @@ if (isset($_POST['logout'])) {
         <a href="javascript:void(0);" class="icon" onclick="MenuButtonClick()"><i class="fa fa-bars"></i></a>
 
         <div class="header-left" id="myLinks">
-            <!-- <a href="../settings/profile.php">Mijn Profiel</a> -->
+            <a href="../../settings/profile.php">Mijn Profiel</a>
         </div>
         <div class="header-right" id="myLinks">
             <form style= "margin: 0;" action="" method="post">
-            <a href=""><b style="margin-right: 10px"> <?= $_SESSION['session_displayname'] ?></b><!--<img  src="../img/img_avatar.png" alt="Avatar" class="avatar">--></a>
+            <a href="../../settings/profile.php"><b style="margin-right: 10px"> <?= $_SESSION['session_displayname'] ?></b><!--<img  src="../img/img_avatar.png" alt="Avatar" class="avatar">--></a>
             <input style="color: black; text-align: center; padding: 20px 25px 20px 25px; text-decoration: none; font-size: 18px; cursor: pointer; border: 0; background-color: rgba(255, 255, 255, 0);" id="logout" class="logout" type="submit" name="logout" value="Logout">
         </form>
         </div>
