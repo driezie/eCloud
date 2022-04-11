@@ -1,4 +1,3 @@
-
 <?php
     //Actor: Jelte Cost
     //Description: Log in scherm voor Driezie's eCloud
@@ -27,6 +26,15 @@ header('Location: ../');
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: ../');
+}
+
+// check if link action is set to recieve
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+    if ($action == 'recieve') {
+        echo $_GET['user_recieved_email'] . " is toegevoegd aan uw contacten. <br>".$_GET['file_id'];
+        // confirmshare($_GET['user_recieved_email'], $_GET['file_id']);
+    }
 }
 
 
