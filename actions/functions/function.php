@@ -22,8 +22,6 @@ echo "<pre>";
 print_r($_POST);
 echo "</pre>";
 
-
-
 echo "<pre>";
 print_r($_GET);
 echo "</pre>";
@@ -164,6 +162,108 @@ if (isset($_GET['action'])) {
             }
         }
         
+    }
+
+    if ($_GET['action'] == 'sharefile') {
+
+        $user_id = $_SESSION['session_id'];
+        $file_id = $_POST['file_id'];
+        $to_user = $_POST['to_user'];
+        echo $to_user;
+        $date = date("Y-m-d");
+
+        // check if to_user exists in database
+        $sql = "SELECT * FROM `users` WHERE `email` = '$to_user'";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        if ($stmt->rowCount() > 0) {
+            $sql = "SELECT * FROM `users` WHERE `id` = '$user_id'";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user_can_share = $user['can_share'];
+
+            if ($user_can_share == 'Y') {
+                $sql = "SELECT * FROM `users` WHERE `email` = '$to_user'";
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute();
+                $user2 = $stmt->fetch(PDO::FETCH_ASSOC);
+                $user_share = $user2['share'];
+                
+
+                if ($user_share == 'Y') {
+                    echo '<br>user allowed u to send files';
+
+                    // get userid from email
+                    $sql = "SELECT * FROM `users` WHERE `email` = '$to_user'";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute();
+                    $user3 = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $to_user_id = $user3['id'];
+
+
+                    $stmt = $dbh->prepare("INSERT INTO shares (file_id, user_send, user_recieved, date) VALUES (:file_id, :user_send, :user_recieved, :date)");
+                    echo '<br><br>file_id: '.$file_id.'<br>user_id: '.$user_id.'<br>user_recieved: '.$to_user_id.'<br>date: '.$date.'<br><br>';
+
+                    $stmt->bindParam(':file_id', $file_id);
+                    $stmt->bindParam(':user_send', $user_id);
+                    $stmt->bindParam(':user_recieved', $to_user_id);
+                    $stmt->bindParam(':date', $date);
+
+                    // get email and displayname from user_id
+                    $sql = "SELECT * FROM `users` WHERE `id` = '$user_id'";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute();
+                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $user_email = $user['email'];
+                    $user_displayname = $user['displayname'];
+
+                    // get file name from file id
+                    $sql = "SELECT * FROM `files` WHERE `id` = '$file_id'";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute();
+                    $file = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $file_name = $file['file_name'];
+
+
+                    // execute the binding of the parameters
+                    $stmt->execute();
+
+                    // if the query is succesful, redirect to the profile page
+                    if ($stmt->rowCount() > 0) {
+                        $to = $email;
+                        $subject = "Bestand gedeeld Jelte's eCloud";
+                        
+                        $headers = array(
+                            "MIME-Version" => "1.0",
+                            "Content-Type" => "text/html; charset=UTF-8",
+                            "From" => "support@jeltecost.nl",
+                            "Replay-To" => "support@jeltecost.nl",
+                        );
+                        
+                        
+                        $message = file_get_contents('actions/functions/template.php');
+                        $message2 = str_replace('{{title_subject}}', 'Bestand Gedeeld', $message);
+
+                        $message3 = str_replace('{{body_title}}', "Er is een bestand gedeeld voor jou", $message2);
+                        $message4 = str_replace('{{body_content}}', $user_email.'<b>('.$user_displayname.')</b> heeft een bestand gedeeld met jou: '.$file_name, $message3);
+                        $message5 = str_replace('{{body_content2}}', 'Als de link niet werkt graag via deze link openen <a href = "https://jeltecost.nl/share.php?email=' . $email . '&file=' . $file_id .'"></a>', $message4);
+
+                        $message6 = str_replace('{{button_text}}', 'Open gedeelde bestand', $message5);
+                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/share.php?email=' . $email . '&file=' . $file_id .'', $message6);
+
+                        $send = mail($to, $subject, $message7, $headers);
+                        $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
+                    }   else {
+                        header('Location: ../../mycloud/shares/share.php?alert=Er is iets fout gegaan. Probeer het opnieuw.');
+                    }
+                }
+            }
+            
+        } else {
+            header('Location: ../../mycloud/shares/share.php?alert=Deze gebruiker bestaat niet in de database.&id='.$file_id.'');
+        }   
     }
 }
 

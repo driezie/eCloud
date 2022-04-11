@@ -26,7 +26,7 @@ header('Location: ../');
 // if post logout
 if (isset($_POST['logout'])) {
     session_destroy();
-    header('Location: ./');
+    header('Location: ../');
 }
 
 
@@ -73,36 +73,59 @@ if (isset($_POST['logout'])) {
             <ul class="header-style" id="myLinks">
                 <li><a href="../">Mijn bestanden</a></li>
                 <li><a href="../upload/">Upload bestanden</a></li>
-                <li><a href="">Gedeelde bestanden</a></li>
+                <li><a href="../shares/">Gedeelde bestanden</a></li>
             </ul>
         </div>
             
-
-        <div style="overflow-x:auto; padding: 10px 10px 10px 10px">
-        <!-- <div><p class="alert">Deze functie is op dit moment niet beschikbaar. Probeer het later opnieuw!</p></div> -->
-
-            <p>
+        
+            <div style="overflow-x:auto; padding: 10px 10px 10px 10px">
+            
+            <form id="form_login" action="../../actions/functions/function.php?action=sharefile"  method="post">
+            <!-- <div><p class="alert">Deze functie is op dit moment niet beschikbaar. Probeer het later opnieuw!</p></div> -->
                 <?php
-                // get the name of the id
-                $sql = "SELECT * FROM files WHERE id = :id AND file_uploader = :user_id";
-                $stmt = $dbh->prepare($sql);
-                $stmt->bindParam(':id', $_GET['id']);
-                $stmt->bindParam(':user_id', $_SESSION['session_id']);
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result as $row) {
-                    echo 'Deel <b>'. $row['file_name'] . '</b> met andere gebruikers:<br>';
-                }
+                // check if there is $alert
+                // check if alert is exists
                 
-
-
+                if (isset($_GET['alert'])) {
+                    $alert = $_GET['alert'];
+                    echo "<p class='alert'>$alert</p>";
+                }
                 ?>
-            </p>
+                <?php
+                // check if there is $alert
+                
+                if (isset($_GET['notify'])) {
+                    $notify = $_GET['notify'];
+                    echo "<p class='notify'>$notify</p>";
+                }
+                ?>
 
-            <input type="text" id="search" placeholder="Zoeken via email">
 
-            <input type="submit" value="Share">
-        </div>
+                <p>
+                    <?php
+                    // get the name of the id
+                    $sql = "SELECT * FROM files WHERE id = :id AND file_uploader = :user_id";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->bindParam(':id', $_GET['id']);
+                    $stmt->bindParam(':user_id', $_SESSION['session_id']);
+                    $stmt->execute();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result as $row) {
+                        echo 'Deel <b>'. $row['file_name'] . '</b> met andere gebruikers:<br>';
+                        echo '<input style="display: none;" type="text" name="file_id" id="file_id" value="'. $row['id'] . '">';
+                    }
+                    
+
+
+                    ?>
+                </p>
+                
+                <input type="text" id="to_user" name="to_user" placeholder="Zoeken via email">
+                <button id="share" type="submit" name="share">Share</button>
+                </form>
+            </div>
+       
+
 
     </div>
 

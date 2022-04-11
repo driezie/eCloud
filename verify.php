@@ -29,11 +29,36 @@ foreach ($result as $row) {
             $stmt->execute();
             $alert = "Account is geactiveerd.";
 
+
+            $to = $email;
+                $subject = "Bevestiging verificatie Jelte's eCloud";
+                
+                $headers = array(
+                    "MIME-Version" => "1.0",
+                    "Content-Type" => "text/html; charset=UTF-8",
+                    "From" => "support@jeltecost.nl",
+                    "Replay-To" => "support@jeltecost.nl",
+                );
+
+
             $receiver = $email;
-            $subject = "Bevestiging verificatie Jelte's eCloud";
-            $body = "Bedankt voor het registreren. Uw account is succesvol geactiveerd. Door op de volgende link te drukken kunt u inloggen. \n https://jeltecost.nl/index.php";
-            $sender = "From: support@jeltecost.nl";
-            mail($receiver, $subject, $body, $sender);
+
+            $message = file_get_contents('actions/functions/template.php');
+            $message2 = str_replace('{{title_subject}}', 'Bevestiging verificatie', $message);
+
+            $message3 = str_replace('{{body_title}}', "Bevestiging verificatie voor Jelte's eCloud", $message2);
+            $message4 = str_replace('{{body_content}}', 'Bedankt voor het registreren. Uw account is succesvol geactiveerd', $message3);
+            $message5 = str_replace('{{body_content2}}', '', $message4);
+
+            $message6 = str_replace('{{button_text}}', 'Mijn Dashboard', $message5);
+            $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/index.php', $message6);
+
+            $send = mail($to, $subject, $message7, $headers);
+            $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
+
+
+
+
             header("Refresh: 5; url=index.php");
         }
         

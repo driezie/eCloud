@@ -54,15 +54,38 @@ if (isset($_POST['submit'])) {
                 $stmt->bindParam(':account_created', $account_created);
 
                 $stmt->execute();
-                $alert = "Account is aangemaakt. Check je email voor de verificatielink.";
-                // ///////////////////////////////////////
-                //         // // INFORMATIE MAIL                   //
-                //         // /////////////////////////////////////// 
-                $receiver = $email;
-                $subject = "Verificatiecode Jelte's eCloud";
-                $body = "Bedankt voor het registreren. Ga naar de link om uw account te activeren. \n https://jeltecost.nl/verify.php?email=" . $email . "&code=" . $verified_code . ".";
-                $sender = "From: support@jeltecost.nl";
-                mail($receiver, $subject, $body, $sender);
+
+
+                $to = $email;
+                $subject = "Verificatie Jelte's eCloud";
+                
+                $headers = array(
+                    "MIME-Version" => "1.0",
+                    "Content-Type" => "text/html; charset=UTF-8",
+                    "From" => "support@jeltecost.nl",
+                    "Replay-To" => "support@jeltecost.nl",
+                );
+                
+                
+                $message = file_get_contents('actions/functions/template.php');
+                $message2 = str_replace('{{title_subject}}', 'Verificatie', $message);
+
+                $message3 = str_replace('{{body_title}}', "Verificatie voor Jelte's eCloud", $message2);
+                $message4 = str_replace('{{body_content}}', 'Bedankt voor het aanmelden bij Jeltes eCloud. We zijn heel blij dat u heeft geregistreerd bij onze Cloud. Druk op Confirm Account om ur account te verifiëren', $message3);
+                $message5 = str_replace('{{body_content2}}', 'Als de link niet werkt graag via deze link verifiëren <a href = "https://jeltecost.nl/verify.php?email=' . $email . '&code=' . $verified_code .'"></a>', $message4);
+
+                $message6 = str_replace('{{button_text}}', 'Verifieer hier', $message5);
+                $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/verify.php?email=' . $email . '&code=' . $verified_code, $message6);
+
+                $send = mail($to, $subject, $message7, $headers);
+
+
+
+
+
+
+
+                $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
             } else {
                 $alert = "Wachtwoorden komen niet overeen.";
             }
