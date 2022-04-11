@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
     height: 100%;
@@ -13,6 +14,26 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
+}
+
+.notify {
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    background-color: rgb(56, 151, 56);
+    color: white;
+    margin-bottom: 15px;
+    margin: 10px;
+}
+
+.alert {
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+    margin: 10px;
 }
 
 .header {
@@ -175,54 +196,12 @@ body {
 #form_login a:hover {
     color:dodgerblue;
 }
-.upload-div .notify {
-    border-radius: 10px;
-    display: inline-block;
-    padding: 20px;
-    background-color: rgb(56, 151, 56);
-    color: white;
-    margin-bottom: 15px;
 
-}
 
-.notify {
-    border-radius: 10px;
-    display: inline-block;
-    padding: 20px;
-    background-color: rgb(56, 151, 56);
-    color: white;
-    margin-bottom: 15px;
-}
-.upload-div .alert {
-    border-radius: 10px;
-    display: inline-block;
-    padding: 20px;
-    background-color: #f44336;/* Red */
-    color: white;
-    margin-bottom: 15px;
-}
-#form_login .alert {
-    border-radius: 10px;
-    display: inline-block;
-    padding: 20px;
-    background-color: #f44336; /* Red */
-    color: white;
-    margin-bottom: 15px;
-}
 
 form i {
     margin-left: -30px;
     cursor: pointer;
-}
-
-.alert {
-    border-radius: 10px;
-    display: inline-block;
-    margin-left: 10px;
-    padding: 20px;
-    background-color: #f44336 !important; /* Red */
-    color: white;
-    margin-bottom: 15px;
 }
 
 

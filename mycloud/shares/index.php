@@ -7,22 +7,16 @@
 require_once '../../actions/db/db_connect.php';
 $dbh = getDB();
 
-// check if logged in
 session_start();
 if (!isset($_SESSION['session_email'])) {
-header('Location: ../');
-
-
-} else {
-?>
-<script>
-    console.log("Valid login with email");
-</script>
-<?php    
-
+    header('Location: ../');
+    } else {
+    ?>
+    <script>
+        console.log("Valid login with email");
+    </script>
+    <?php    
 }
-
-// if post logout
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: ./');

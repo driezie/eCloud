@@ -16,13 +16,23 @@ $stmt->execute();
 $user = $stmt->fetch();
 // if not set to Y, redirect to index.php
 
+// print posts and gets
 
-$user_id = $_SESSION['session_id'];
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
 
+
+
+echo "<pre>";
+print_r($_GET);
+echo "</pre>";
 
 // check if post action then check if post is logout
 if (isset($_GET['action'])) {
+
     if ($_GET['action'] == 'delete') {
+        $user_id = $_SESSION['session_id'];
         if ($user['can_delete'] == 'Y') {
             $file_name = $_GET['file_name'];
 
@@ -74,7 +84,7 @@ if (isset($_GET['action'])) {
     } 
 
     if ($_GET['action'] == 'download') {
-        // get path
+        $user_id = $_SESSION['session_id'];
         $file_name = $_GET['file_name'];
 
         $filepath = "myuploads/userid_".$user_id. '/' . $file_name;
@@ -90,20 +100,13 @@ if (isset($_GET['action'])) {
     }
 
     if ($_GET['action'] == 'updateprofile') {
-        // echo all post data
-        echo "<pre>";
-        print_r($_GET);
-        echo "</pre>";
+        $user_id = $_SESSION['session_id'];
+        
 
-        // echo all post data
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
+        $displayname = $_POST['displayname'];
 
-        $displayname = $_GET['displayname'];
-
-        $user_newsletter = $_GET['user_newsletter'];
-        $user_share = $_GET['share'];
+        $user_newsletter = $_POST['newsletter'];
+        $user_share = $_POST['share'];
 
         if (empty($displayname)) {
             header('Location: ../../settings/profile.php?alert=Vul een display naam in.');
@@ -114,11 +117,13 @@ if (isset($_GET['action'])) {
             } else {
                 $user_newsletter = 'N';
             }
-            if (isset($_GET['share'])) {
+
+            if (($user_share) == 'share') {
                 $user_share = 'Y';
             } else {
                 $user_share = 'N';
             }
+
             
             $_SESSION['session_displayname'] = $displayname;
 
@@ -129,12 +134,14 @@ if (isset($_GET['action'])) {
             if ($stmt->rowCount() > 0) {
                 header('Location: ../../settings/profile.php?notify=Profiel is aangepast!');
             } else {
-                header('Location: ../../settings/profile.php?alert=Er ging iets mis! We kunnen de informatie niet wijzigen.');
+                header('Location: ../../settings/profile.php?alert=Er zijn geen wijzigingen op uw profiel geweest.');
             }
         }
     }
 
     if ($_GET['action'] == 'deleteallfiles') {
+        echo "delete all files";
+        $user_id = $_SESSION['session_id'];
         $dirname = "../../myuploads/userid_".$user_id;
         array_map('unlink', glob("$dirname/*.*"));
         rmdir($dirname);
@@ -153,7 +160,7 @@ if (isset($_GET['action'])) {
                 // $sender = "From: support@jeltecost.nl";
                 // mail($receiver, $subject, $body, $sender);
             } else {
-                header('Location: ../../settings/profile.php?alert=Er ging iets mis! We kunnen geen bestanden vinden.');
+                header('Location: ../../settings/profile.php?alert=We kunnen geen bestanden vinden in uw Cloud. <a href="../mycloud/upload">Voeg meer toe</a>');
             }
         }
         

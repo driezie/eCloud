@@ -178,7 +178,7 @@ body {
             </p>
 
             <p>
-                <a style="background-color: #e5012f; color: white;" id="submit" type="submit" name="submit" href="./profile.php?action=deleteallfile" class="deletealert" data-confirm="Weet u zeker dat u al ur bestanden wilt verwijderen? al uw bestanden worden verwijderd!">Verwijder all mijn bestanden</a>
+                <a style="background-color: #e5012f; color: white;" id="submit" type="submit" name="submit" href="../actions/functions/function.php?action=deleteallfiles" class="deletealert" data-confirm="Weet u zeker dat u al ur bestanden wilt verwijderen? al uw bestanden worden verwijderd!">Verwijder all mijn bestanden</a>
             </p>
             <!-- <p> -->
                 <!-- <a style="background-color: #e5012f; color: white;" id="submit" type="submit" name="submit" href="./profile.php?action=deleteacount" class="deletealert" data-confirm="Weet u zeker dat u uw account wilt verwijderen? al uw bestanden worden verwijderd!">Delete mijn account</a> -->

@@ -7,7 +7,6 @@
 require_once '../actions/db/db_connect.php';
 $dbh = getDB();
 
-// check if logged in
 session_start();
 if (!isset($_SESSION['session_email'])) {
 header('Location: ../');
@@ -22,10 +21,13 @@ header('Location: ../');
 
 }
 
-// if post logout
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: ./');
+}
+
+function message($methode,$smg) {
+    echo '<p class="'.$methode.'">'.$smg.'</p>';
 }
 
 ?>
@@ -81,32 +83,16 @@ if (isset($_POST['logout'])) {
         <div>
         
             <?php
-                if (isset($alert)) {
-                    echo '<div><p class="alert">';
-                    echo $alert;
-                    echo '</p></div>';
+
+                if (isset($_GET['alert'])) {
+                    message('alert',$_GET['alert']);  
                 } elseif (isset($_GET['notify'])) {
-                    echo $_GET['notify'];
+                    message('notify',$_GET['notify']);                  
                 }
-                
-            
-                else {
-                    // echo '<div><p class="alert">';
-                    // echo 'Deze cloud is momenteel onder constructie. Als er problemen zijn met de webpage, stuur een email naar support.jeltecost.nl';
-                    // echo '</p></div>';
-                }
-
             ?>
-
-        
-        <!-- <div><a class="btn" href="./upload/" style="background-color: #0099FF;">Voeg nieuw</a></div> -->
-        <!-- <ul class="breadcrumb">
-            <a href="">mycloud</a> /</a>
-        </ul> -->
         </div>
             <table id="myTable">
                 <tr>      
-                    <!-- <th style="max-width: auto">Id</th> -->
                     <th style="max-width: auto">Naam</th>
                     <th style="max-width: auto">Locatie</th>
                     <th style="max-width: auto">Grootte</th>
@@ -131,8 +117,6 @@ if (isset($_POST['logout'])) {
                     </td>
                     <td><?=$file_location;?></td>
                     <td><?php
-                    
-                    // set file size from bits into mb and gb
                     $size = $row['file_size'];
                     $size = $size / 1024;
                     $size = $size / 1024;
@@ -149,8 +133,6 @@ if (isset($_POST['logout'])) {
                 
                 </td>
                 <td><?=$row['file_upload_date'];?></td>
-
-                <!-- <td><a href="./shares/?sharefile=<?=$row['file_name'];?>"><i class="material-icons">share</i></a></td>                -->
                 <td><a href="../actions/functions/function.php?action=download&file_name=<?= $row['file_name']; ?>">Download</a></td>
                 <td><a href="./shares/share.php?id=<?= $row['id']; ?>">Delen</a></td>               
 
@@ -166,8 +148,6 @@ if (isset($_POST['logout'])) {
     </div>
 
 </body>
-
-<!-- Ja die ene go up knopje -->
 <a id="myBtn" href="#topnav">Go up</a>
 
 <script>

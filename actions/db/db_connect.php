@@ -10,3 +10,4 @@ function getDB() {
 
     return $dbh;
 }
+

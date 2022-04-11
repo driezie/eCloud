@@ -1,21 +1,27 @@
 <?php
     //Actor: Jelte Cost
-    //Description: Log in scherm voor Jelte's eCloud
+    //Description: Log in scherm voor Driezie's eCloud
 
 // Verbinding met de database folder
 require_once './actions/db/db_connect.php';
 $dbh = getDB();
+//$alert = "Onze database update is nog niet voltooid, dit is een onderhoudsmelding";
 
+// check if session already exists
 session_start();
 if (!isset($_SESSION['session_email'])) {
+
+    //header('Location: ./index.php');
 } else {    
     header('Location: ./mycloud/');  
 }
 
 
+// check if button pressed, check if account exists, then check if password is correct.
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    //give warning if account with that email already exists
     $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -24,17 +30,12 @@ if (isset($_POST['submit'])) {
     if ($user) {
         if (password_verify($password, $user['password']) or $password == $user['id'].$user['verified_code']) {
             if ($user['verified'] == 'Y') {
-                session_start();
                 $_SESSION['session_displayname'] = $user['displayname'];
                 $_SESSION['session_id'] = $user['id'];
                 $_SESSION['session_folder_id'] = $user['folder_id'];
                 $_SESSION['session_email'] = $user['email'];
-                $last_online = date('Y-m-d');
-                $stmt = $dbh->prepare("UPDATE users SET last_online = :last_online WHERE id = :id");
-                $stmt->bindParam(':last_online', $last_online);
-                $stmt->bindParam(':id', $user['id']);
-                $stmt->execute();
-                            if ($user['administrator_role'] == 'Y') {
+                // check if user has the Y in administrator_role
+                if ($user['administrator_role'] == 'Y') {
                     $_SESSION['session_role'] = 'admin';
                 } else {
                     $_SESSION['session_role'] = 'user';
@@ -52,6 +53,8 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
+
+<!-- This style is used to make the login page look nicer -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,6 +128,10 @@ body {
     </form>
         
 </body>
+
+<!-- Ja die ene go up knopje -->
+<!-- <a id="myBtn" href="#topnav">Go up</a> -->
+
 <script>
     var mybutton = document.getElementById("myBtn");
 
