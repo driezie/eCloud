@@ -1,5 +1,10 @@
 <?php
-// Verbinding met de database folder
+
+// Op deze pagina checkt de gebruiker of de gegevens kloppen. 
+// Als de gegevens kloppen, wordt de gebruiker doorgestuurd naar de volgende pagina.
+// Dit word gestuurd via je email.
+
+
 require_once './actions/db/db_connect.php';
 $dbh = getDB();
 
@@ -62,7 +67,6 @@ foreach ($result as $row) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
-<!-- This style is used to make the login page look nicer -->
 <style>
 body {
     background-image: url("./images/background.jpg");
@@ -104,9 +108,6 @@ body {
         
 </body>
 
-<!-- Ja die ene go up knopje -->
-<!-- <a id="myBtn" href="#topnav">Go up</a> -->
-
 <script>
     var mybutton = document.getElementById("myBtn");
 
@@ -144,7 +145,5 @@ body {
 
     })
 </script>
-
-
 
 </html>
