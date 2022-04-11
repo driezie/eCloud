@@ -1,7 +1,6 @@
 # eCloud
 
-![](https://komarev.com/ghpvc/?drieziee)
-
+## In Development voor ItsLearning
 
 Projectbeschrijving
 
