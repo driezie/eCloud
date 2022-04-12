@@ -111,37 +111,18 @@ function message($methode,$smg) {
                 $stmt->execute();
                 $result = $stmt->fetchAll();
                 foreach ($result as $row) {
-                    $file_location1 = str_replace('/userid_'.$user_id, "", $row['file_destination']);
-                    $file_location = str_replace("../", "", $file_location1);
                     ?>
                 <tr>
-                    <td>
-                        <?=$row['file_name'];?>
-                    </td>
-                    <td><?=$file_location;?></td>
-                    <td><?php
-                    $size = $row['file_size'];
-                    $size = $size / 1024;
-                    $size = $size / 1024;
-                    $size = round($size, 2);
-                    if ($size > 1024) {
-                        $size = $size / 1024;
-                        $size = round($size, 2);
-                        echo $size . " GB";
-                    } else {
-                        echo $size . " MB";
-                    }
-                    ?>
-                
-                
-                    </td>
-                    <td><?=$row['file_upload_date'];?></td>
-                    <td><a href="../actions/functions/function.php?action=download&file_name=<?= $row['file_name']; ?>">Download</a></td>             
+                    <td>no .php?</td>
+                    <td>mycloud/unknown</td>
+                    <td>0MB </td>
+                    <td>upload date</td>
+                    <td><a href="../actions/functions/function.php?action=download&file_name=<?= $d['file_name']; ?>">Download</a></td>             
                 </tr>
-            <?php
-            }
-            ?>   
             </table>
+            <?php
+                }
+            ?>
             </div>
         </div>
     </div>

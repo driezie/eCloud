@@ -102,8 +102,6 @@ body {
                 <li><a href="../mycloud/shares/index.php">Gedeelde bestanden</a></li>
             </ul>
         </div>
-    <div class="container">
-    
         <div>
         <!-- <div><p class="alert">Deze cloud is momenteel onder constructie. Als er problemen zijn met de webpage, stuur een email naar support.jeltecost.nl</p></div> -->
         <form id="form_login" action="../actions/functions/function.php?action=updateprofile" method="post">
@@ -140,7 +138,7 @@ body {
             <p>
                 <label>Als er bestanden gedeeld worden ziet u deze naam bij de email staan. <b>(delen van bestanden is op dit moment niet mogelijk)</b></label>
             </p>
-            <label>Display naam: </label><input id="displayname" name="displayname" class='input' type='text' value="<?= $result['displayname']; ?>">
+            <label>Display naam: </label> <input id="displayname" name="displayname" class='input' type='text' value="<?= $result['displayname']; ?>">
             </p>
             <p>
                 <?php
@@ -186,7 +184,7 @@ body {
                 <!-- <a style="background-color: #e5012f; color: white;" id="submit" type="submit" name="submit" href="./profile.php?action=deleteacount" class="deletealert" data-confirm="Weet u zeker dat u uw account wilt verwijderen? al uw bestanden worden verwijderd!">Delete mijn account</a> -->
             <!-- </p> -->
             </form>
-        </div>
+
 
     </div>
 

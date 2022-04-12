@@ -173,22 +173,22 @@ if (isset($_GET['action'])) {
         $stmt->execute();
         $user_reciever = $stmt->fetchAll();
 
-        echo 'Verstuurder: '. $user_sender_id.' - '.$user_sender_email. '<br>';
-            echo "Can_Share: ".$current_user[0]['can_share']."<br><br>";
+        //echo 'Verstuurder: '. $user_sender_id.' - '.$user_sender_email. '<br>';
+            //echo "Can_Share: ".$current_user[0]['can_share']."<br><br>";
         
         if ($stmt->rowCount() > 0) {
             $user_reciever_id = $user_reciever[0]['id'];
             $user_reciever_enabledshare = $user_reciever[0]['share'];
-            echo 'Ontvanger: '.$user_reciever_id .' - '.$user_reciever_email . '<br>Share enabled: '.$user_reciever_enabledshare.'<br>';
+            //echo 'Ontvanger: '.$user_reciever_id .' - '.$user_reciever_email . '<br>Share enabled: '.$user_reciever_enabledshare.'<br>';
         }
         
-        echo '<br><br><br>';
+        //echo '<br><br><br>';
         // Hier checkt t of de gebruiker kan delen (dit kan bewerkt worden door een administrator)
         if ($current_user[0]['can_share'] == 'Y') {
-            echo 'Gebruiker kan delen met mensen<br>';
+            //echo 'Gebruiker kan delen met mensen<br>';
             // Hier checkt t of de gebruiker naar waar het wordt gestuurd het delen heeft ingeschakeld
             if ($user_reciever_enabledshare == 'Y') {
-                echo 'Gebruiker heeft delen aanstaan!<br>';
+                //echo 'Gebruiker heeft delen aanstaan!<br>';
 
                 // Hier checkt t of de gebruiker zelf het bestand niet al heeft gedeeld met hetzelfde persoon
                 $sql = "SELECT * FROM `shares` WHERE `file_id` = '$file_id' AND `user_recieved` = '$user_reciever_id'";
@@ -198,7 +198,7 @@ if (isset($_GET['action'])) {
                 if ($stmt->rowCount() > 0) {
                     header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft dit bestand al gedeeld met deze persoon');
                 } else {
-                    echo 'Gebruiker heeft dit bestand nog niet gedeeld met deze persoon<br>';
+                    //echo 'Gebruiker heeft dit bestand nog niet gedeeld met deze persoon<br>';
 
                     // Hij slaat nu alle gegevens op in de database. Dit is de file_id, de gebruiker die het bestand heeft gedeeld, de gebruiker die het bestand heeft ontvangen, en de datum waarop het bestand is gedeeld.
                     $stmt = $dbh->prepare("INSERT INTO shares (file_id, user_send, user_recieved) VALUES (:file_id, :user_send, :user_recieved)");
