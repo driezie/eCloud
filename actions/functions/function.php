@@ -16,17 +16,6 @@ $stmt->execute();
 $user = $stmt->fetch();
 // if not set to Y, redirect to index.php
 
-// print posts and gets
-
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
-echo "<pre>";
-print_r($_GET);
-echo "</pre>";
-
-
 
 // check if post action then check if post is logout
 if (isset($_GET['action'])) {
@@ -207,7 +196,7 @@ if (isset($_GET['action'])) {
                 $stmt->execute();
                 $shared_file = $stmt->fetchAll();
                 if ($stmt->rowCount() > 0) {
-                    echo 'Gebruiker heeft dit bestand al gedeeld met deze persoon<br>';
+                    header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft dit bestand al gedeeld met deze persoon');
                 } else {
                     echo 'Gebruiker heeft dit bestand nog niet gedeeld met deze persoon<br>';
 
@@ -255,23 +244,25 @@ if (isset($_GET['action'])) {
                         $message5 = str_replace('{{body_content2}}', '', $message4);
 
                         $message6 = str_replace('{{button_text}}', 'Open gedeelde bestand', $message5);
-                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&file_name=' . $file_id .'', $message6);
+                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&file_id=' . $file_id .'', $message6);
 
                         // email wordt verstuurd
                         $send = mail($to, $subject, $message7, $headers);
                         // hier checkt t of dit succesvol is gebeurt
-                        $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
+                        header('Location: ../../mycloud/shares/share.php?notify=Er is een mail gestuurd naar '.$to.'.');
+
                     } else {
-                        echo 'Niet in database geupload<br>';
+                        header('Location: ../../mycloud/shares/share.php?alert=Niet in database geupload');
+
                     }
                 }
 
                 
             } else {
-                echo 'Gebruiker heeft delen uitstaan<br>';
+                header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft delen uitstaan');
             }
         } else {
-            echo 'Gebruiker kan niet delen met mensen<br>';
+            header('Location: ../../mycloud/shares/share.php?alert=Gebruiker kan niet delen met mensen');
         }
         
 

@@ -78,13 +78,6 @@ if (isset($_POST['submit'])) {
                 $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/verify.php?email=' . $email . '&code=' . $verified_code, $message6);
 
                 $send = mail($to, $subject, $message7, $headers);
-
-
-
-
-
-
-
                 $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
             } else {
                 $alert = "Wachtwoorden komen niet overeen.";
@@ -113,7 +106,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <!-- CSS -->
+    <!-- CSS --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     <link rel="stylesheet" href="./mycloud/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

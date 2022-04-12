@@ -46,6 +46,8 @@ function message($methode,$smg) {
 
 <!-- CSS -->
 <link rel="stylesheet" href="./css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
@@ -91,14 +93,19 @@ function message($methode,$smg) {
                 }
             ?>
         </div>
+
+        <div style="display: flex;">
             <table id="myTable">
                 <tr>      
                     <th style="max-width: auto">Naam</th>
                     <th style="max-width: auto">Locatie</th>
                     <th style="max-width: auto">Grootte</th>
                     <th style="max-width: auto">Laatst bewerkt</th>
-                    <th style="max-width: 3%"></th>   
+                    <th style="max-width: auto"></th>   
+                    <th style="max-width: auto"></th>   
+                    <th style="max-width: auto"></th>   
                 </tr>
+
                 <?php
                 $user_id = $_SESSION['session_id'];
                 $sql = "SELECT * FROM files WHERE file_uploader = '$user_id'";
@@ -112,8 +119,6 @@ function message($methode,$smg) {
                 <tr>
                     <td>
                         <?=$row['file_name'];?>
-                
-                
                     </td>
                     <td><?=$file_location;?></td>
                     <td><?php
@@ -131,19 +136,22 @@ function message($methode,$smg) {
                     ?>
                 
                 
-                </td>
-                <td><?=$row['file_upload_date'];?></td>
-                <td><a href="../actions/functions/function.php?action=download&file_name=<?= $row['file_name']; ?>">Download</a></td>
-                <td><a href="./shares/share.php?id=<?= $row['id']; ?>">Delen</a></td>               
+                    </td>
+                    <td><?=$row['file_upload_date'];?></td>
+                    <td><a href="../actions/functions/function.php?action=download&file_name=<?= $row['file_name']; ?>">Download</a></td>
+                    <td><a href="./shares/share.php?id=<?= $row['id']; ?>">Delen</a></td>               
 
-                <td><a href="../actions/functions/function.php?action=delete&file_name=<?= $row['file_name']; ?>"><i class="material-icons">delete</i></a></td>               
-                    
+                    <td><a href="../actions/functions/function.php?action=delete&file_name=<?= $row['file_name']; ?>"><i class="material-icons">delete</i></a></td>               
+                        
                 </tr>
             <?php
             }
             ?>   
             </table>
+            </div>
         </div>
+    </div>
+
 
     </div>
 

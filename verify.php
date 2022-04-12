@@ -31,14 +31,14 @@ foreach ($result as $row) {
 
 
             $to = $email;
-                $subject = "Bevestiging verificatie Jelte's eCloud";
-                
-                $headers = array(
-                    "MIME-Version" => "1.0",
-                    "Content-Type" => "text/html; charset=UTF-8",
-                    "From" => "support@jeltecost.nl",
-                    "Replay-To" => "support@jeltecost.nl",
-                );
+            $subject = "Bevestiging verificatie Jelte's eCloud";
+            
+            $headers = array(
+                "MIME-Version" => "1.0",
+                "Content-Type" => "text/html; charset=UTF-8",
+                "From" => "support@jeltecost.nl",
+                "Replay-To" => "support@jeltecost.nl",
+            );
 
 
             $receiver = $email;
@@ -83,6 +83,8 @@ foreach ($result as $row) {
     
 
     <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     <link rel="stylesheet" href="./mycloud/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
