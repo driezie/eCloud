@@ -201,73 +201,72 @@ if (isset($_GET['action'])) {
             if ($user_reciever_enabledshare == 'Y') {
                 echo 'Gebruiker heeft delen aanstaan!<br>';
 
-
-                // check of de gebruiker al een bestand heeft gestuurd naar deze gebruiker
-                // $sql = "SELECT * FROM `files` WHERE `file_uploader` = '$user_sender_id' AND `file_reciever` = '$user_reciever_id'";
-                // $stmt = $dbh->prepare($sql);
-                // $stmt->execute();
-                // $files = $stmt->fetchAll();
-                // // check of de gebruiker al een bestand heeft gestuurd naar deze gebruiker
-                // if ($stmt->rowCount() > 0) {
-                //     echo 'Gebruiker heeft al een bestand gestuurd naar deze gebruiker<br>';
-                // } else {
-                //     echo 'Gebruiker heeft nog geen bestand gestuurd naar deze gebruiker<br>';
-                // }
-
-
-                // Hij slaat nu alle gegevens op in de database. Dit is de file_id, de gebruiker die het bestand heeft gedeeld, de gebruiker die het bestand heeft ontvangen, en de datum waarop het bestand is gedeeld.
-                $stmt = $dbh->prepare("INSERT INTO shares (file_id, user_send, user_recieved) VALUES (:file_id, :user_send, :user_recieved)");
-                $stmt->bindParam(':file_id', $file_id);
-                $stmt->bindParam(':user_send', $user_sender_id);
-                $stmt->bindParam(':user_recieved', $user_reciever_id);
-                $stmt->execute();
-
-                // check of de query is gelukt
-
-                // Hier pakt t de naam van het bstand (dit wordt alleen gebruikt in de email)
-                $sql = "SELECT file_name FROM `files` WHERE `id` = '$file_id'";
+                // Hier checkt t of de gebruiker zelf het bestand niet al heeft gedeeld met hetzelfde persoon
+                $sql = "SELECT * FROM `shares` WHERE `file_id` = '$file_id' AND `user_recieved` = '$user_reciever_id'";
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
-                $file = $stmt->fetchAll();
-                $file_name = $file[0]['file_name'];
-
-
+                $shared_file = $stmt->fetchAll();
                 if ($stmt->rowCount() > 0) {
-                    echo 'In database uploaded<br>';
-
-                    // Nu wordt de email verstuurd met de link om het bestand te de accepteren zodat het in zijn database komt te staan.
-                    $to = $user_reciever_email;
-
-                    // title van de email
-                    $subject = "Bestand gedeeld Jelte's eCloud";
-                    
-                    $headers = array(
-                        "MIME-Version" => "1.0",
-                        "Content-Type" => "text/html; charset=UTF-8",
-                        "From" => "support@jeltecost.nl",
-                        "Replay-To" => "support@jeltecost.nl",
-                    );
-                    
-                    
-                    $message = file_get_contents('template.php');
-
-                    // Inhoud van de email
-                    $message2 = str_replace('{{title_subject}}', 'Bestand Gedeeld', $message);
-
-                    $message3 = str_replace('{{body_title}}', "Er is een bestand gedeeld voor jou", $message2);
-                    $message4 = str_replace('{{body_content}}', $user_sender_email.'<b>('.$user_sender_displayname.')</b> heeft een bestand gedeeld met jou: ' . $file_name, $message3);
-                    $message5 = str_replace('{{body_content2}}', '', $message4);
-
-                    $message6 = str_replace('{{button_text}}', 'Open gedeelde bestand', $message5);
-                    $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&file_name=' . $file_id .'', $message6);
-
-                    // email wordt verstuurd
-                    $send = mail($to, $subject, $message7, $headers);
-                    // hier checkt t of dit succesvol is gebeurt
-                    $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
+                    echo 'Gebruiker heeft dit bestand al gedeeld met deze persoon<br>';
                 } else {
-                    echo 'Niet in database geupload<br>';
+                    echo 'Gebruiker heeft dit bestand nog niet gedeeld met deze persoon<br>';
+
+                    // Hij slaat nu alle gegevens op in de database. Dit is de file_id, de gebruiker die het bestand heeft gedeeld, de gebruiker die het bestand heeft ontvangen, en de datum waarop het bestand is gedeeld.
+                    $stmt = $dbh->prepare("INSERT INTO shares (file_id, user_send, user_recieved) VALUES (:file_id, :user_send, :user_recieved)");
+                    $stmt->bindParam(':file_id', $file_id);
+                    $stmt->bindParam(':user_send', $user_sender_id);
+                    $stmt->bindParam(':user_recieved', $user_reciever_id);
+                    $stmt->execute();
+
+                    // check of de query is gelukt
+
+                    // Hier pakt t de naam van het bstand (dit wordt alleen gebruikt in de email)
+                    $sql = "SELECT file_name FROM `files` WHERE `id` = '$file_id'";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute();
+                    $file = $stmt->fetchAll();
+                    $file_name = $file[0]['file_name'];
+
+
+                    if ($stmt->rowCount() > 0) {
+                        echo 'In database uploaded<br>';
+
+                        // Nu wordt de email verstuurd met de link om het bestand te de accepteren zodat het in zijn database komt te staan.
+                        $to = $user_reciever_email;
+
+                        // title van de email
+                        $subject = "Bestand gedeeld Jelte's eCloud";
+                        
+                        $headers = array(
+                            "MIME-Version" => "1.0",
+                            "Content-Type" => "text/html; charset=UTF-8",
+                            "From" => "support@jeltecost.nl",
+                            "Replay-To" => "support@jeltecost.nl",
+                        );
+                        
+                        
+                        $message = file_get_contents('template.php');
+
+                        // Inhoud van de email
+                        $message2 = str_replace('{{title_subject}}', 'Bestand Gedeeld', $message);
+
+                        $message3 = str_replace('{{body_title}}', "Er is een bestand gedeeld voor jou", $message2);
+                        $message4 = str_replace('{{body_content}}', $user_sender_email.'<b>('.$user_sender_displayname.')</b> heeft een bestand gedeeld met jou: ' . $file_name, $message3);
+                        $message5 = str_replace('{{body_content2}}', '', $message4);
+
+                        $message6 = str_replace('{{button_text}}', 'Open gedeelde bestand', $message5);
+                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&file_name=' . $file_id .'', $message6);
+
+                        // email wordt verstuurd
+                        $send = mail($to, $subject, $message7, $headers);
+                        // hier checkt t of dit succesvol is gebeurt
+                        $alert =  ($send ? 'Account is aangemaakt. Check je email voor de verificatielink.' : 'Er was een probleem. Gebruik een ander email adress.');
+                    } else {
+                        echo 'Niet in database geupload<br>';
+                    }
                 }
+
+                
             } else {
                 echo 'Gebruiker heeft delen uitstaan<br>';
             }
