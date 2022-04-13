@@ -147,28 +147,32 @@ if (isset($_POST['logout'])) {
                 foreach ($result as $row) {
                     echo '<tr>';
                     
-                    
-                    $sql = "SELECT * FROM users WHERE id = '$row[user_recieved]'";
-                    $stmt = $dbh->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result as $value) {
-                        $email = $value['email'];
-                        $email = ucfirst($email);
-                        echo '<td>'. $email . '</td>';
+
+                    if ($row['file_id'] == $_GET['id']) {
+                        $sql = "SELECT * FROM users WHERE id = '$row[user_recieved]'";
+                        $stmt = $dbh->prepare($sql);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $value) {
+                            $email = $value['email'];
+                            $email = ucfirst($email);
+                            echo '<td>'. $email . '</td>';
+                        }
+                        
+                        if ($row['received'] == 'N') {
+                            echo '<td>Niet ontvangen</td>';
+                        } else {
+                            echo '<td>Ontvangen</td>';
+                        }
+                        echo '<td>'. $row['date'] . '</td>';
+
+                        $file_id = $row['file_id'];
+                        echo '<td><a href="../../actions/functions/function.php?action=removesharedfileviasender&file_id='.$file_id.'">Verwijderen</a></td>             ';
+
+                        echo '<tr>';
+
                     }
                     
-                    if ($row['received'] == 'N') {
-                        echo '<td>Niet ontvangen</td>';
-                    } else {
-                        echo '<td>Ontvangen</td>';
-                    }
-                    echo '<td>'. $row['date'] . '</td>';
-
-                    $file_id = $row['file_id'];
-                    echo '<td><a href="../../actions/functions/function.php?action=removesharedfileviasender&file_id='.$file_id.'">Verwijderen</a></td>             ';
-
-                    echo '<tr>';
                 } 
                 
                 ?>

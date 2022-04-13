@@ -196,7 +196,7 @@ if (isset($_GET['action'])) {
                 $stmt->execute();
                 $shared_file = $stmt->fetchAll();
                 if ($stmt->rowCount() > 0) {
-                    header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft dit bestand al gedeeld met deze persoon');
+                    header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft dit bestand al gedeeld met deze persoon&id='.$file_id);
                 } else {
                     //echo 'Gebruiker heeft dit bestand nog niet gedeeld met deze persoon<br>';
 
@@ -218,7 +218,7 @@ if (isset($_GET['action'])) {
 
 
                     if ($stmt->rowCount() > 0) {
-                        echo 'In database uploaded<br>';
+                        //echo 'In database uploaded<br>';
 
                         // Nu wordt de email verstuurd met de link om het bestand te de accepteren zodat het in zijn database komt te staan.
                         $to = $user_reciever_email;
@@ -244,25 +244,25 @@ if (isset($_GET['action'])) {
                         $message5 = str_replace('{{body_content2}}', '', $message4);
 
                         $message6 = str_replace('{{button_text}}', 'Open gedeelde bestand', $message5);
-                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&file_id=' . $file_id .'', $message6);
+                        $message7 = str_replace('{{button_link}}', 'https://jeltecost.nl/mycloud/shares/index.php?action=recieve&user_recieved_email=' . $user_reciever_email . '&id=' . $file_id .'', $message6);
 
                         // email wordt verstuurd
                         $send = mail($to, $subject, $message7, $headers);
                         // hier checkt t of dit succesvol is gebeurt
-                        header('Location: ../../mycloud/shares/share.php?notify=Er is een mail gestuurd naar '.$to.'.');
+                        header('Location: ../../mycloud/shares/share.php?notify=Er is een mail gestuurd naar '.$to.'.&id='.$file_id);
 
                     } else {
-                        header('Location: ../../mycloud/shares/share.php?alert=Niet in database geupload');
+                        header('Location: ../../mycloud/shares/share.php?alert=Niet in database geupload&id='.$file_id);
 
                     }
                 }
 
                 
             } else {
-                header('Location: ../../mycloud/shares/share.php?alert=Gebruiker heeft delen uitstaan');
+                header('Location: ../../mycloud/shares/share.php?alert=Kan gebruiker niet vinden. Misschien staat het delen uit?&id='.$file_id);
             }
         } else {
-            header('Location: ../../mycloud/shares/share.php?alert=Gebruiker kan niet delen met mensen');
+            header('Location: ../../mycloud/shares/share.php?alert=Gebruiker kan niet delen met mensen&id='.$file_id);
         }
     }
 

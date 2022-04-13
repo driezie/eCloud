@@ -30,6 +30,27 @@ function message($methode,$smg) {
     echo '<p class="'.$methode.'">'.$smg.'</p>';
 }
 
+// check if there has a post action
+if (isset($_GET['action'])) {
+    // check if post os recieve
+    if ($_GET['action'] == 'recieve') {
+        $user_current_id = $_SESSION['session_id'];
+        $user_recieved_email = $_GET['user_recieved_email'];
+        // check if user current is user recieved
+        $file_id = $_GET['id'];
+        // make update query for recieved
+        $sql = "UPDATE shares SET received = 'Y' WHERE file_id = $file_id AND user_send = $user_current_id";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        // check if query is succesfull
+        if ($stmt) {
+            $alert = 'Bestand is ontvangen';
+        } else {
+            $alert = 'Er ging iets mis';
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +121,6 @@ function message($methode,$smg) {
                     <th style="max-width: auto">Naam</th>
                     <th style="max-width: auto">Locatie</th>
                     <th style="max-width: auto">Grootte</th>
-                    <th style="max-width: auto">Laatst bewerkt</th>
                     <th style="max-width: auto"></th> 
                     <th style="max-width: auto"></th>   
                 </tr>
@@ -143,7 +163,6 @@ function message($methode,$smg) {
                             }   
 
                             echo '</td>';
-                            echo '<td>'.$value['file_upload_date'].'</td>';
                             $file_name = $value['file_name'];
                             $file_id = $value['id'];
                             echo '<td><a href="../../actions/functions/function.php?action=download&file_name='.$file_name.'">Download</a></td>             ';
