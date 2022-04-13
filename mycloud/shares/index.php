@@ -101,6 +101,7 @@ function message($methode,$smg) {
                     <th style="max-width: auto">Locatie</th>
                     <th style="max-width: auto">Grootte</th>
                     <th style="max-width: auto">Laatst bewerkt</th>
+                    <th style="max-width: auto"></th> 
                     <th style="max-width: auto"></th>   
                 </tr>
 
@@ -110,19 +111,51 @@ function message($methode,$smg) {
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
                 $result = $stmt->fetchAll();
-                foreach ($result as $row) {
-                    ?>
-                <tr>
-                    <td>no .php?</td>
-                    <td>mycloud/unknown</td>
-                    <td>0MB </td>
-                    <td>upload date</td>
-                    <td><a href="../actions/functions/function.php?action=download&file_name=<?= $d['file_name']; ?>">Download</a></td>             
-                </tr>
-            </table>
-            <?php
+                // print retult with key and value
+                foreach ($result as $key => $value) {
+                    echo '<tr>';
+                    // check if recieved is Y
+                    if ($value['received'] == 'Y') {
+                        //echo '<td>'.$value['file_id'].'</td>';
+                        // get file information from file_id
+                        $sql = "SELECT * FROM files WHERE id = '$value[file_id]'";
+                        $stmt = $dbh->prepare($sql);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll();
+                        foreach ($result as $key => $value) {
+                            echo '<td>'.$value['file_name'].'</td>';
+
+                            $file_location1 = str_replace('/userid_'.$user_id, "", $value['file_destination']);
+                            $file_location = str_replace("../", "", $file_location1);
+                            echo '<td>'.$file_location.'</td>';
+                            echo '<td>';
+                            $size = $value['file_size'];
+                            $size = $size / 1024;
+                            $size = $size / 1024;
+                            $size = round($size, 2);
+                            if ($size > 1024) {
+                                $size = $size / 1024;
+                                $size = round($size, 2);
+                                echo $size . " GB";
+                            } else  {
+                                echo $size . " MB";
+
+                            }   
+
+                            echo '</td>';
+                            echo '<td>'.$value['file_upload_date'].'</td>';
+                            $file_name = $value['file_name'];
+                            $file_id = $value['id'];
+                            echo '<td><a href="../../actions/functions/function.php?action=download&file_name='.$file_name.'">Download</a></td>             ';
+                            echo '<td><a href="../../actions/functions/function.php?action=removesharedfile&file_id='.$file_id.'">Verwijder</a></td>             ';
+                        }
+
+                    }
+                    echo '</tr>';
                 }
-            ?>
+                ?>
+
+            </table>
             </div>
         </div>
     </div>

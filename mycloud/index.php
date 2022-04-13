@@ -132,7 +132,7 @@ function message($methode,$smg) {
                         echo $size . " GB";
                     } else {
                         echo $size . " MB";
-                    }
+                    } 
                     ?>
                 
                 

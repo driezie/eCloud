@@ -127,6 +127,53 @@ if (isset($_POST['logout'])) {
                 <input type="text" id="to_user" name="to_user" placeholder="Zoeken via email">
                 <button id="share" type="submit" name="share">Share</button>
                 </form>
+
+                <table id="myTable">
+                <tr>      
+                    <th style="max-width: auto">Email</th>
+                    <th style="max-width: auto">Ontvangen</th>   
+                    <th style="max-width: auto">Datum</th>   
+                    <th style="max-width: auto"></th>   
+                </tr>
+
+                <p style="font-size: larger;"><b>Al gedeeld met:</b></p>
+                <?php
+                $user_id = $_SESSION['session_id'];
+                $sql = "SELECT * FROM shares WHERE user_send = '$user_id'";
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute();
+                // get the result
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                    echo '<tr>';
+                    
+                    
+                    $sql = "SELECT * FROM users WHERE id = '$row[user_recieved]'";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result as $value) {
+                        $email = $value['email'];
+                        $email = ucfirst($email);
+                        echo '<td>'. $email . '</td>';
+                    }
+                    
+                    if ($row['received'] == 'N') {
+                        echo '<td>Niet ontvangen</td>';
+                    } else {
+                        echo '<td>Ontvangen</td>';
+                    }
+                    echo '<td>'. $row['date'] . '</td>';
+
+                    $file_id = $row['file_id'];
+                    echo '<td><a href="../../actions/functions/function.php?action=removesharedfileviasender&file_id='.$file_id.'">Verwijder</a></td>             ';
+
+                    echo '<tr>';
+                } 
+                
+                ?>
+
+            </table>
             </div>
        
 

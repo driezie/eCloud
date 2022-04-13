@@ -264,14 +264,40 @@ if (isset($_GET['action'])) {
         } else {
             header('Location: ../../mycloud/shares/share.php?alert=Gebruiker kan niet delen met mensen');
         }
-        
-
-        
-
-
-
     }
 
+
+    if ($_GET['action'] == 'removesharedfile') {
+        $user_id = $_SESSION['session_id'];
+        $file_id = $_GET['file_id'];
+        $sql = "DELETE FROM shares WHERE file_id = :file_id AND user_recieved = :user_recieved";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':file_id', $file_id);
+        $stmt->bindParam(':user_recieved', $user_id);
+        $stmt->execute();
+        // check of de query is gelukt
+        if ($stmt->rowCount() > 0) {
+            header('Location: ../../mycloud/shares/index.php?alert=Bestand is verwijderd van uw gedeelde bestanden.&id='.$file_id);
+        } else {
+            echo 'Not deleted';
+        }
+    }
+
+    if ($_GET['action'] == 'removesharedfileviasender') {
+        $user_send = $_SESSION['session_id'];
+        $file_id = $_GET['file_id'];
+        $sql = "DELETE FROM shares WHERE file_id = :file_id AND user_send = :user_send";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':file_id', $file_id);
+        $stmt->bindParam(':user_send', $user_send);
+        $stmt->execute();
+        // check of de query is gelukt
+        if ($stmt->rowCount() > 0) {
+            header('Location: ../../mycloud/shares/share.php?alert=Bestand is verwijderd van uw gedeelde bestanden.&id='.$file_id);
+        } else {
+            echo 'Not deleted';
+        }
+    }
 }
 
 ?>
