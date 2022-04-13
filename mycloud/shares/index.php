@@ -34,19 +34,25 @@ function message($methode,$smg) {
 if (isset($_GET['action'])) {
     // check if post os recieve
     if ($_GET['action'] == 'recieve') {
-        $user_current_id = $_SESSION['session_id'];
-        $user_recieved_email = $_GET['user_recieved_email'];
-        // check if user current is user recieved
+        $user_current_email = $_GET['user_recieved_email'];
+
+
+        // get id from user_current_email
+        $sql = "SELECT id FROM users WHERE email = '$user_current_email'";
+        $result = $dbh->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        $user_id = $row['id'];
+
         $file_id = $_GET['id'];
         // make update query for recieved
-        $sql = "UPDATE shares SET received = 'Y' WHERE file_id = $file_id AND user_send = $user_current_id";
+        $sql = "UPDATE shares SET received = 'Y' WHERE file_id = $file_id AND user_recieved = $user_id";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
         // check if query is succesfull
         if ($stmt) {
-            $alert = 'Bestand is ontvangen';
+            header('Location: index.php?alert=Uw bestand is succesvol ontvangen');
         } else {
-            $alert = 'Er ging iets mis';
+            header('Location: index.php?alert=Er ging iets mis');
         }
     }
 }

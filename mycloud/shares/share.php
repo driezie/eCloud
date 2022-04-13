@@ -77,7 +77,7 @@ if (isset($_POST['logout'])) {
             <ul class="header-style" id="myLinks">
                 <li><a href="../../mycloud/">Mijn bestanden</a></li>
                 <li><a href="../upload/">Upload bestanden</a></li>
-                <li><a href="">Gedeelde bestanden</a></li>
+                <li><a href="../shares/">Gedeelde bestanden</a></li>
             </ul>
         </div>
         

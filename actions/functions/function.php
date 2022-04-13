@@ -265,8 +265,6 @@ if (isset($_GET['action'])) {
             header('Location: ../../mycloud/shares/share.php?alert=Gebruiker kan niet delen met mensen&id='.$file_id);
         }
     }
-
-
     if ($_GET['action'] == 'removesharedfile') {
         $user_id = $_SESSION['session_id'];
         $file_id = $_GET['file_id'];
@@ -282,7 +280,6 @@ if (isset($_GET['action'])) {
             echo 'Not deleted';
         }
     }
-
     if ($_GET['action'] == 'removesharedfileviasender') {
         $user_send = $_SESSION['session_id'];
         $file_id = $_GET['file_id'];
