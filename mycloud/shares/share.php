@@ -73,16 +73,17 @@ if (isset($_POST['logout'])) {
         </div>
     </div>
     <div style="display:flex; height: 100%;">
-        <div class='main-container'>
+    <div class='main-container'>
             <ul class="header-style" id="myLinks">
-                <li><a href="../">Mijn bestanden</a></li>
+                <li><a href="../../mycloud/">Mijn bestanden</a></li>
                 <li><a href="../upload/">Upload bestanden</a></li>
-                <li><a href="../shares/">Gedeelde bestanden</a></li>
+                <li><a href="">Gedeelde bestanden</a></li>
             </ul>
         </div>
-            
         
-            <div style="overflow-x:auto; padding: 10px 10px 10px 10px">
+            
+
+        <div style="overflow-x:auto;">
             
             <form id="form_login" action="../../actions/functions/function.php?action=sharefile"  method="post">
             <!-- <div><p class="alert">Deze functie is op dit moment niet beschikbaar. Probeer het later opnieuw!</p></div> -->
@@ -127,8 +128,7 @@ if (isset($_POST['logout'])) {
                 <input type="text" id="to_user" name="to_user" placeholder="Zoeken via email">
                 <button id="share" type="submit" name="share">Share</button>
                 </form>
-
-                <table id="myTable">
+                <table id="myTable" >
                 <tr>      
                     <th style="max-width: auto">Email</th>
                     <th style="max-width: auto">Ontvangen</th>   
@@ -166,7 +166,7 @@ if (isset($_POST['logout'])) {
                     echo '<td>'. $row['date'] . '</td>';
 
                     $file_id = $row['file_id'];
-                    echo '<td><a href="../../actions/functions/function.php?action=removesharedfileviasender&file_id='.$file_id.'">Verwijder</a></td>             ';
+                    echo '<td><a href="../../actions/functions/function.php?action=removesharedfileviasender&file_id='.$file_id.'">Verwijderen</a></td>             ';
 
                     echo '<tr>';
                 } 
