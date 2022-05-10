@@ -1,4 +1,4 @@
-# eCloud
+# eCloud (Eerste 3 weken)
 
 In project ga je in drie weken een web-interface voor een cloud storage systeem maken. Je kunt je laten inspireren door bestaande systemen als Dropbox, Google Drive en OneDrive, maar je mag ook zelf het wiel opnieuw uitvinden. Dit project voor je individueel uit.
 
