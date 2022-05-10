@@ -10,8 +10,7 @@ $dbh = getDB();
 // check if session already exists
 session_start();
 if (!isset($_SESSION['session_email'])) {
-
-    //header('Location: ./index.php');
+    //succes
 } else {    
     header('Location: ./mycloud/');  
 }

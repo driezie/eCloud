@@ -139,6 +139,8 @@ if (isset($_GET['action'])) {
                 $result = $stmt->fetchAll();
                 // print retult with key and value
                 foreach ($result as $key => $value) {
+                    $file_id = $value['file_id'];
+                }
                     echo '<tr>';
                     // check if recieved is Y
                     if ($value['received'] == 'Y') {
@@ -176,7 +178,7 @@ if (isset($_GET['action'])) {
                         }
 
                     }
-                    echo '</tr>';
+                    echo 'The end';
                 }
                 ?>
 
