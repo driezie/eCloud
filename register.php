@@ -22,9 +22,7 @@ if (isset($_POST['submit'])) {
         }   else {
             if ($password == $password2) {
             
-                $verified_code = rand(1, 999999999);
-                $folder_id = rand(1, 999999999);
-    
+                $verified_code = rand(1, 999999999);    
                 // hash password
                 $password = password_hash($password, PASSWORD_DEFAULT);
                 //remove everything after @ from email
@@ -44,11 +42,10 @@ if (isset($_POST['submit'])) {
                 // set verified to N
 
     
-                $stmt = $dbh->prepare("INSERT INTO users (email, password, displayname, newsletter, folder_id, verified_code, account_created) VALUES (:email, :password, :displayname, :newsletter, :folder_id, :verified_code, :account_created)");
+                $stmt = $dbh->prepare("INSERT INTO users (email, password, displayname, newsletter, verified_code, account_created) VALUES (:email, :password, :displayname, :newsletter, :verified_code, :account_created)");
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':displayname', $displayname);
-                $stmt->bindParam(':folder_id', $folder_id);
                 $stmt->bindParam(':verified_code', $verified_code);
                 $stmt->bindParam(':newsletter', $newsletter);
                 $stmt->bindParam(':account_created', $account_created);

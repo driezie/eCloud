@@ -31,7 +31,6 @@ if (isset($_POST['submit'])) {
             if ($user['verified'] == 'Y') {
                 $_SESSION['session_displayname'] = $user['displayname'];
                 $_SESSION['session_id'] = $user['id'];
-                $_SESSION['session_folder_id'] = $user['folder_id'];
                 $_SESSION['session_email'] = $user['email'];
                 // check if user has the Y in administrator_role
                 if ($user['administrator_role'] == 'Y') {

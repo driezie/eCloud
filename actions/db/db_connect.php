@@ -1,7 +1,7 @@
 <?php
 function getDB() {
     $host = 'localhost';
-    $dbname = 'drieziecloud_db';
+    $dbname = 'ecloud';
     $user = 'root';
     $pass = '';
 

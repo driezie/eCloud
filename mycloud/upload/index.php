@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
     $fileExt = explode('.', $fileName);
     $fileActualExt = strtolower(end($fileExt));
     
-    $allowed = array('jpg', 'jpeg', 'png', 'pdf', 'docx','exe', 'doc', 'txt', 'xlsx', 'xls', 'ppt', 'pptx','mp4', 'mp3', 'zip', 'rar','html', 'css', 'js','php', 'html', 'css');
+    $allowed = array('jpg', 'jpeg', 'png', 'pdf', 'docx','exe', 'doc', 'txt', 'xlsx', 'xls', 'ppt', 'pptx','mp4', 'mp3', 'zip', 'rar','html', 'css', 'js','php', 'html', 'css','sql');
     // get info from database for the user
     $sql = "SELECT * FROM users WHERE id = :user_id";
     $stmt = $dbh->prepare($sql);
@@ -65,8 +65,6 @@ if (isset($_POST['submit'])) {
                 if (!file_exists('../../myuploads/userid_'.$_SESSION['session_id'])) {
                     mkdir('../../myuploads/userid_'.$_SESSION['session_id']);
                 }
-                
-    
                 if ($fileError === 0) {
                     if ($fileSize < 50000000) {
                         move_uploaded_file($fileTmpName, $fileDestination);
